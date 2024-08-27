@@ -1,0 +1,24 @@
+# ReplicaSet の設定ファイルのサンプル
+# nginx の ReplicaSet を作成する
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-rs # ReplicaSet の名前
+  namespace: team-b # ReplicaSet が作成されるネームスペース
+  labels:
+    app: nginx-rs # ReplicaSet に付与されるラベル
+spec:
+  replicas: 3 # レプリカ数
+  selector:
+    matchLabels:
+      app: nginx # ラベル app: nginx が付与された Pod が ReplicaSet に属する
+  template:
+    metadata:
+      labels:
+        app: nginx # Pod に付与されるラベル
+    spec:
+      containers:
+      - name: nginx # コンテナ名
+        image: nginx # コンテナイメージ
+        ports: # ポートの設定
+        - containerPort: 80 # コンテナが listen するポート

@@ -1,0 +1,10 @@
+# Configmap で環境変数を設定するサンプル
+# Pod の spec.containers.envfrom で ConfigMap を参照する
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: configmap-test001
+data: # ConfigMap に設定するデータを記述
+  # TEST_ENV という環境変数を設定
+  TEST_ENV: "test001"

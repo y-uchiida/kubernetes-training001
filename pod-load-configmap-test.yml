@@ -1,0 +1,28 @@
+# Pod でConfigMap を参照する例
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-load-configmap
+spec:
+  containers:
+    - name: pod-load-configmap
+      image: busybox
+
+      # ConfigMap に設定されたkey-value を環境変数として読み込む
+      envFrom:
+        - configMapRef:
+            name: configmap-test001 # ConfigMap の設定ファイルの、 metadata.name と一致させる
+
+      # 読み取り専用ボリュームとして、vloumes で定義しておいたConfigMap をマウントする
+      volumeMounts:
+        - name: configmap-volume-test002
+          mountPath: /etc/config # ConfigMap の内容をマウントするディレクトリを指定
+
+      # ConfigMap で読み込んでいるCSVファイルと、環境変数を表示する
+      command: ["sh", "-c", "cat /etc/config/data.csv && export | echo $TEST_ENV && sleep 600"]
+
+  # ConfigMap をマウントするためのボリュームを定義
+  volumes:
+    - name: configmap-volume-test002 # ボリューム名を指定
+      configMap:
+        name: configmap-test002 # Configmap の設定ファイルの、 metadata.name と一致させる

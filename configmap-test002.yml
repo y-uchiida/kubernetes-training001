@@ -1,0 +1,13 @@
+# Configmap で設定ファイルを記述するサンプル
+# Pod の spec.containers.volumeMounts で ConfigMap を参照し、volumes でマウントする
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: configmap-test002
+data: # ConfigMap に設定するデータを記述
+  # data.csv というファイルを作成し、その中身を記述
+  data.csv: |
+    name,age,email,password
+    taro,20,taro@example.com,pass1234
+    hanako,25,hanako@example.com,pass5678

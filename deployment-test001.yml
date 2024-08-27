@@ -1,0 +1,33 @@
+# Deployment の設定を行うファイル
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment # Deployment の名前
+  # namespace: team-b # Deployment が作成されるネームスペース。指定しない場合は default になる
+  labels:
+    app: nginx-deployment # Deployment に付与されるラベル
+spec:
+  replicas: 3 # レプリカ数
+  selector:
+    matchLabels:
+      app: nginx-dep # ラベル app: nginx-dep が付与された Pod が Deployment に属する
+  template:
+    metadata:
+      labels:
+        app: nginx-dep # Pod に付与されるラベル
+    spec:
+      containers:
+      - name: nginx-dep # コンテナ名
+        image: nginx:1.14 # コンテナイメージ
+        # image: nginx:1.15 # コンテナイメージを変更してapply すると、ReplicaSet に反映される
+        ports: # ポートの設定
+        - containerPort: 80 # コンテナが listen するポート
+
+  strategy: # デプロイ戦略
+    type: RollingUpdate # ReplicaSet内のPodを一部ずつ更新する
+    rollingUpdate:
+      maxSurge: 1 # 最大で 1 Pod ずつ増やす
+      maxUnavailable: 1 # 最大で 1 Pod ずつ減らす
+
+  progressDeadlineSeconds: 300 # デプロイが進まない場合は 300 秒後にタイムアウトする
+  paused: false # デプロイを一時停止するかどうか

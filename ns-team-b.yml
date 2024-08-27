@@ -1,0 +1,10 @@
+# team-b というネームスペースを作成する
+# 以下のコマンドの出力をファイルに保存した結果
+# kubectl create namespace team-b --dry-run=client -o yaml > ns-team-b.yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: team-b
+spec: {}
+status: {}

@@ -1,0 +1,5 @@
+# team-a というネームスペースを作成する
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-a

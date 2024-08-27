@@ -1,0 +1,20 @@
+# Service の設定ファイル
+# Pod を取りまとめてひとつのエンドポイントを提供する
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels: # Service にラベルを設定
+    app: service-test001
+  name: service-test001
+spec:
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector: # Service が紐づく Pod を指定
+    app: deployment-service-test001 # Pod のラベルを指定 (Pod のmetadata.labels で指定した値)
+  type: ClusterIP
+status:
+  loadBalancer: {}

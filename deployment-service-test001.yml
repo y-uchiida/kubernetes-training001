@@ -1,0 +1,43 @@
+# Service リソースで管理されるDeployment の例
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-service-test001
+  labels:
+    app: deployment-service-test001
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: deployment-service-test001
+  template:
+    metadata:
+      labels:
+        app: deployment-service-test001
+    spec:
+      containers:
+      - name: deployment-service-test001
+        image: nginx:1.19.0
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/share/nginx/html
+        envFrom:
+        - configMapRef:
+            name: configmap-test001
+        env:
+        - name: SECRET_ENV01
+          valueFrom:
+            secretKeyRef:
+              name: secret-test001
+              key: SECRET_ENV01
+        - name: SECRET_ENV02
+          valueFrom:
+            secretKeyRef:
+              name: secret-test001
+              key: SECRET_ENV02
+      volumes:
+      - name: config-volume
+        configMap:
+          name: configmap-test002
